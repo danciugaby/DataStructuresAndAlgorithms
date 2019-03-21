@@ -1,9 +1,9 @@
-package SDA_Laborator2;
+package SDA_Laborator_3;
 
 public class TheHeap {
     public static void main(String[] args) {
         try {
-            Heap heap = new Heap();
+            SDA_Laborator_3.Heap heap = new SDA_Laborator_3.Heap();
             heap.Insert(5);
             heap.Insert(10);
             heap.Insert(4);
