@@ -10,10 +10,10 @@ public class DemoPrim {
 
     static void Prim(Graph g) {
         //list of all nodes;
-        ArrayList<String> Q = new ArrayList<>();
+        ArrayList<String> Q = new ArrayList<>(); 
         HashSet<Edge> edges = new HashSet<Edge>();
 
-        g.ResetLabels(); //this creates the union/find structure
+        g.ResetLabels(); //this creates the union/find structure inside original graph
 
         for (String s : g.getAdjVertices().keySet() ) {
             Map<Vertex,Double> map = g.getAdjVertices().get(s);
@@ -25,6 +25,11 @@ public class DemoPrim {
 
         // we start with A
         String nextkey = "A";
+		//Q is the subgraph used for constructing the MST by adding nodes 
+		//the criteria on which we add a new node:
+		//choose the edge that is connected to the current subgraph and has mininum value
+		//and adding this edge does not lead to cycle
+		//adding the mininum edge leads to discovering new nodes and adding them in subgraph
         while (Q.size()< g.getAdjVertices().keySet().size()-1)
         {
             Q.add(nextkey);
@@ -35,10 +40,10 @@ public class DemoPrim {
             while(it.hasNext())
             {
                 Edge e = it.next();
-                //if node is in tree we investigate its neighbours
+                //if node is in tree (current subgraph) we investigate its neighbours
                 if (Q.contains(e.v1) || Q.contains(e.v2))
                 {
-                    if (e.value < min) //we take the smallest edge adjacent to nextkey
+                    if (e.value < min) //we take the smallest edge adjacent to current subgraph
                     {
                         min = e.value;
                         smallesedge = e;
@@ -59,6 +64,8 @@ public class DemoPrim {
             }
             else
                 System.out.println("Not considered because of cycle " + smallesedge.v1 + " " + smallesedge.v2 + " " + smallesedge.value);
+			
+			//once an edge is considered it will be given infinit value
             smallesedge.value = Double.MAX_VALUE;//so we do not consider it anymore;
 
 
